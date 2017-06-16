@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Dao.User_loginMapper">
+    <!--解决模型类字段与数据库字段不匹配-->
+    <!--<resultMap id="login" type="User_login">-->
+        <!--<id property="user_login_id" column="user_login_id"/>-->
+        <!--<result property="user_login_name" column="user_login_name"/>-->
+        <!--<result property="user_login_pwd" column="user_login_pwd"/>-->
+        <!--<result property="ur_id" column="ur_id"/>-->
+    <!--</resultMap>-->
+    <!--<select id="query" resultType="User_login" resultMap="login">-->
+    <select id="query" resultType="User_login">
+    select * from user_login
+    </select>
+    <select id="queryAll" resultType="User_login">
+        select * from user_login
+    </select>
+</mapper>
