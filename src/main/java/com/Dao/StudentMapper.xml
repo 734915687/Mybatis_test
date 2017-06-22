@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Dao.StudentMapper">
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+    <!--一对多-->
+    <resultMap id="ur" type="student">
+        <id property="Id" column="Id"/>
+        <result property="Name" column="Name"/>
+        <result property="Sex" column="Sex"/>
+        <result property="Birth" column="Birth"/>
+        <result property="Department" column="Department"/>
+        <result property="Address" column="Address"/>
+        <collection property="Score"  column="Id" select="com.Dao.ScoreMapper.queryScore"></collection>
+    </resultMap>
+
+    <resultMap id="urr" type="student">
+        <id property="Id" column="Id"/>
+        <result property="Name" column="Name"/>
+        <result property="Sex" column="Sex"/>
+        <result property="Birth" column="Birth"/>
+        <result property="Department" column="Department"/>
+        <result property="Address" column="Address"/>
+        <association property="Scoreeee"  column="Id" select="com.Dao.ScoreMapper.queryScore"></association>
+    </resultMap>
+    <select id="queryStudent" parameterType="map" resultType="student" resultMap="urr">
+        select * from sutdent where Id=#{Id}
+    </select>
+</mapper>
+        <!--fetchType="eager"-->
