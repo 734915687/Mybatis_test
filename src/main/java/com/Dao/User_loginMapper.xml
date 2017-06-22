@@ -4,17 +4,122 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Dao.User_loginMapper">
     <!--解决模型类字段与数据库字段不匹配-->
-    <!--<resultMap id="login" type="User_login">-->
-        <!--<id property="user_login_id" column="user_login_id"/>-->
-        <!--<result property="user_login_name" column="user_login_name"/>-->
-        <!--<result property="user_login_pwd" column="user_login_pwd"/>-->
-        <!--<result property="ur_id" column="ur_id"/>-->
-    <!--</resultMap>-->
+    <resultMap id="login" type="User_login">
+        <id property="Id" column="Id"/>
+        <result property="Name" column="Name"/>
+        <result property="Sex" column="Sex"/>
+        <result property="Birth" column="Birth"/>
+        <result property="Department" column="Department"/>
+        <result property="Address" column="Address"/>
+    </resultMap>
+
     <!--<select id="query" resultType="User_login" resultMap="login">-->
     <select id="query" resultType="User_login">
     select * from user_login
     </select>
     <select id="queryAll" resultType="User_login">
         select * from user_login
+    </select>
+    <!--物理分页-->
+    <!--<select id="page" resultType="User_login" parameterType="Map">-->
+        <!--select * from user_login limit #{start},#{size}-->
+    <!--</select>-->
+
+    <select id="page" resultType="User_login" parameterType="Map">
+    select * from user_login where 1=1
+    <if test="start!=null and size!=null">
+            limit #{start},#{size}
+    </if>
+    </select>
+
+    <!--设置存储过程-->
+    <parameterMap id="am" type="map">
+        <parameter property="name" javaType="String" mode="IN"/>
+        <parameter property="pwd" javaType="String" mode="IN"/>
+    </parameterMap>
+    <update id="adduser_login" statementType="CALLABLE" parameterMap="am">
+        {call adduser_login(?,?)}
+    </update>
+
+    <parameterMap id="pm" type="map">
+        <parameter property="id1" javaType="INTEGER"  mode="IN"/>
+        <parameter property="id2" javaType="INTEGER"  mode="IN"/>
+        <parameter property="countt" jdbcType="INTEGER"  mode="OUT"/>
+    </parameterMap>
+    <select id="queryuser_login" statementType="CALLABLE" parameterMap="pm">
+        {call queryuser_login(?,?,?)}
+    </select>
+
+<!--choose-->
+    <select id="querytest2" parameterType="Map" resultType="user_login">
+        select * from user_login
+         <choose>
+             <when test='user_name_login=="李四"'>
+                 where user_login_name=#{user_name_login}
+             </when>
+             <when test="user_name_pwd=='123456'">
+                 where user_login_pwd=#{user_name_pwd}
+             </when>
+             <otherwise>
+                 where 1=1
+             </otherwise>
+         </choose>
+    </select>
+
+<!--where-->
+    <!--<select id="querytest3" parameterType="Map" resultType="user_login">-->
+        <!--select * from user_login-->
+       <!--<where>-->
+           <!--<if test="user_login_id==1">-->
+                <!--user_login_name="李四"-->
+           <!--</if>-->
+           <!--<if test="user_login_id==2">-->
+                <!--and user_login_id=1-->
+           <!--</if>-->
+       <!--</where>-->
+    <!--</select>-->
+
+
+<!--trim-->
+    <select id="querytest3" parameterType="Map" resultType="user_login">
+        select * from user_login
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="user_login_id==1">
+                user_login_name="李四"
+            </if>
+            <if test="user_login_id==2">
+                and user_login_id=1
+            </if>
+        </trim>
+    </select>
+
+    <!--foreach-->
+    <select id="querytest4" resultType="user_login">
+        SELECT * from user_login
+        <if test="ii!=null">
+            <where>
+                user_login_id in
+                <foreach item="a" collection="ii" open="(" separator="," close=")">
+                    #{a}
+                </foreach>
+            </where>
+        </if>
+    </select>
+
+    <!--set-->
+    <update id="setuser_login" parameterType="user_login">
+             update user_login
+             <set>
+                 <if test="user_login_name!=null">
+                     user_login_name=#{user_login_name},
+                 </if>
+                 <if test="user_login_pwd!=null">
+                     user_login_pwd=#{user_login_pwd},
+                 </if>
+             </set>
+             where user_login_id=#{user_login_id}
+    </update>
+    <select id="user_loginid" resultType="user_login">
+        select user_login_id from user_login
     </select>
 </mapper>

@@ -4,17 +4,22 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Mybatis_test" />
+          <element id="module-output" name="test" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.4.4" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.42" />
+          <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.2" />
+          <element id="library" level="project" name="Maven: com.mchange:mchange-commons-java:0.2.11" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.3" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.3" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
         </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/test/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="Mybatis_test/web/Web" />
+      <element id="javaee-facet-resources" facet="test/web/Web" />
     </root>
   </artifact>
 </component>
